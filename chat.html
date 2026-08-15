@@ -200,3 +200,10 @@ function addMessage(text, type = "user") {
     chatLog.appendChild(div);
     chatLog.scrollTop = chatLog.scrollHeight;
 }
+function addMessage(text, type = "user") {
+    const div = document.createElement("div");
+    div.className = "msg " + (type === "user" ? "msg-user" : "msg-system");
+    div.innerHTML = renderEmotes(text);
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+}
