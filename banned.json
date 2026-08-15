@@ -1,0 +1,14 @@
+{
+    "banned": true,
+    "reason": "Violation of community guidelines!!!",
+    "details": {
+        "type": "temporary",
+        "expires": "2026-12-31T23:59:59Z"
+    },
+    "user": {
+        "id": "unknown",
+        "name": "unknown"
+    },
+    "mod": "EruptionMod",
+    "message": "You have been banned from using EruptionMod."
+}
