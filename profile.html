@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+
+    <style>
+        body {
+            background: #141424;
+            color: white;
+            font-family: system-ui, sans-serif;
+            padding: 20px;
+        }
+
+        #profileBox {
+            background: #1f1f33;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #9D4BFF;
+            max-width: 400px;
+        }
+
+        .label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #logoutBtn {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #9D4BFF;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>// USER PROFILE</h1>
+
+    <div id="profileBox">
+        <div class="label">Username:</div>
+        <div id="p_username"></div>
+
+        <div class="label">Email:</div>
+        <div id="p_email"></div>
+
+        <div class="label">Birthday:</div>
+        <div id="p_birthday"></div>
+
+        <div class="label">Account Created:</div>
+        <div id="p_created"></div>
+
+        <button id="logoutBtn" onclick="logout()">Log Out</button>
+    </div>
+
+    <script src="account.js"></script>
+
+    <script>
+        const user = getCurrentUser();
+
+        if (!user) {
+            location.href = "signin.html";
+        }
+
+        document.getElementById("p_username").textContent = user.username;
+        document.getElementById("p_email").textContent = user.email;
+        document.getElementById("p_birthday
