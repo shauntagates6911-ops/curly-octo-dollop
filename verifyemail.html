@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Email - EruptionMod</title>
+
+    <style>
+        body {
+            background: #141424;
+            color: white;
+            font-family: system-ui, sans-serif;
+            padding: 20px;
+        }
+        #box {
+            background: #1f1f33;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #9D4BFF;
+            max-width: 400px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            border-radius: 6px;
+            border: none;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #9D4BFF;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #msg {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>// VERIFY EMAIL</h1>
+
+    <div id="box">
+        <p>Enter your email to receive an OTP activation code.</p>
+
+        <input id="email" type="email" placeholder="Email">
+        <button onclick="sendOtp()">Send OTP</button>
+
+        <hr>
+
+        <p>Enter the OTP you received:</p>
+        <input id="otp" placeholder="Activation code">
+        <button onclick="verifyOtp()">Verify</button>
+
+        <p id="msg"></p>
+    </div>
+
+    <script src="account.js"></script>
+
+    <script>
+        const SUPABASE_URL = "YOUR_SUPABASE_URL";
+        const SUPABASE_ANON = "YOUR_SUPABASE_ANON_KEY";
+
+        let currentOtp = null;
+
+        async function sendOtp() {
+            const e = email.value.trim();
+            if (!e) {
+                msg.textContent = "Enter an email.";
+                return;
+            }
+
+            const user = getCurrentUser();
+            if (!user) {
+                msg.textContent = "You must be signed in.";
+                return;
+            }
+
+            user.email = e;
+            localStorage.setItem("acc_" + user.username, JSON.stringify(user));
+
+            currentOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+            msg.textContent = "Sending OTP...";
+
+            try {
+                const res = await fetch(
+                    `${SUPABASE_URL}/functions/v1/send-otp`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${SUPABASE_ANON}`
+                        },
+                        body: JSON.stringify({
+                            email: e,
+                            otp: currentOtp
+                        })
+                    }
+                );
+
+                const data = await res.json();
+
+                if (data.error) {
+                    msg.textContent = "Error sending email.";
+                } else {
+                    msg.textContent = "OTP sent! Check your email.";
+                }
+
+            } catch (err) {
+                msg.textContent = "Failed to send OTP.";
+            }
+        }
+
+        function verifyOtp() {
+            const code = otp.value.trim();
+            if (!code) {
+                msg.textContent = "Enter the OTP.";
+                return;
+            }
+            if (code !== currentOtp) {
+                msg.textContent = "Invalid OTP.";
+                return;
+            }
+
+            const user = getCurrentUser();
+            if (!user) {
+                msg.textContent = "You must be signed in.";
+                return;
+            }
+
+            user.emailVerified = true;
+
+            if (!user.badges) user.badges = [];
+            if (!user.badges.includes("verifiedEmail")) {
+                user.badges.push("verifiedEmail");
+            }
+
+            localStorage.setItem("acc_" + user.username, JSON.stringify(user));
+
+            msg.textContent = "Email verified! Your account is now activated.";
+        }
+    </script>
+</body>
+</html>
+
+        
