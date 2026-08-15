@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EruptionMod Chat</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, sans-serif;
+            background: #141424;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #chatHeader {
+            padding: 10px 16px;
+            background: #9D4BFF;
+            font-weight: bold;
+        }
+        #chatLog {
+            flex: 1;
+            padding: 10px 16px;
+            overflow-y: auto;
+            background: #1f1f33;
+        }
+        .msg {
+            margin-bottom: 8px;
+        }
+        .msg-user {
+            color: #FFD300;
+        }
+        .msg-system {
+            color: #9D4BFF;
+        }
+        #chatInputBar {
+            display: flex;
+            padding: 10px;
+            background: #141424;
+            gap: 8px;
+        }
+        #chatInput {
+            flex: 1;
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+        }
+        #sendBtn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 4px;
+            background: #9D4BFF;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatHeader">// ERUPTIONMOD CHAT</div>
+    <div id="chatLog">
+        <div class="msg msg-system">Welcome to EruptionMod Chat.</div>
+    </div>
+    <div id="chatInputBar">
+        <input id="chatInput" type="text" placeholder="Type a message...">
+        <button id="sendBtn">Send</button>
+    </div>
+
+    <script>
+        const chatLog = document.getElementById("chatLog");
+        const chatInput = document.getElementById("chatInput");
+        const sendBtn = document.getElementById("sendBtn");
+
+        function addMessage(text, type = "user") {
+            const div = document.createElement("div");
+            div.className = "msg " + (type === "user" ? "msg-user" : "msg-system");
+            div.textContent = text;
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            addMessage(text, "user");
+            chatInput.value = "";
+        }
+
+        sendBtn.onclick = sendMessage;
+        chatInput.addEventListener("keydown", e => {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
+</body>
+</html>
+<a href="chat.html" target="_blank">Open Chat</a>
+.emote {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin: 0 4px;
+}
+
+/* Discord-style emotes */
+.emote-happy     { background-image: url("emotes/happy.png"); }
+.emote-laugh     { background-image: url("emotes/laugh.png"); }
+.emote-cry       { background-image: url("emotes/cry.png"); }
+.emote-angry     { background-image: url("emotes/angry.png"); }
+.emote-shock     { background-image: url("emotes/shock.png"); }
+.emote-cool      { background-image: url("emotes/cool.png"); }
+.emote-heart     { background-image: url("emotes/heart.png"); }
+.emote-thumbsup  { background-image: url("emotes/thumbsup.png"); }
+.emote-thinking  { background-image: url("emotes/thinking.png"); }
+.emote-chaos     { background-image: url("emotes/chaos.png"); }
+const emoteMap = {
+    ":happy:": "emote-happy",
+    ":laugh:": "emote-laugh",
+    ":cry:": "emote-cry",
+    ":angry:": "emote-angry",
+    ":shock:": "emote-shock",
+    ":cool:": "emote-cool",
+    ":heart:": "emote-heart",
+    ":thumbsup:": "emote-thumbsup",
+    ":thinking:": "emote-thinking",
+    ":chaos:": "emote-chaos"
+};
+
+function renderEmotes(text) {
+    let output = text;
+    for (const code in emoteMap) {
+        const cls = emoteMap[code];
+        const span = `<span class="emote ${cls}"></span>`;
+        output = output.replaceAll(code, span);
+    }
+    return output;
+}
+function addMessage(text, type = "user") {
+    const div = document.createElement("div");
+    div.className = "msg " + (type === "user" ? "msg-user" : "msg-system");
+    div.innerHTML = renderEmotes(text);
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+}
+// Go away you panther.
+.emote {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border-radius: 6px;
+    background: #2b2b40;
+    color: white;
+    margin: 0 4px;
+    font-weight: bold;
+    user-select: none;
+}
+
+/* Fallback emoji letters */
+.emote-happy::after     { content: "😊"; }
+.emote-laugh::after     { content: "😂"; }
+.emote-cry::after       { content: "😢"; }
+.emote-angry::after     { content: "😡"; }
+.emote-shock::after     { content: "😱"; }
+.emote-cool::after      { content: "😎"; }
+.emote-heart::after     { content: "❤️"; }
+.emote-thumbsup::after  { content: "👍"; }
+.emote-thinking::after  { content: "🤔"; }
+.emote-chaos::after     { content: "💥"; }
+const emoteMap = {
+    ":happy:": "emote-happy",
+    ":laugh:": "emote-laugh",
+    ":cry:": "emote-cry",
+    ":angry:": "emote-angry",
+    ":shock:": "emote-shock",
+    ":cool:": "emote-cool",
+    ":heart:": "emote-heart",
+    ":thumbsup:": "emote-thumbsup",
+    ":thinking:": "emote-thinking",
+    ":chaos:": "emote-chaos"
+};
+
+function renderEmotes(text) {
+    let output = text;
+    for (const code in emoteMap) {
+        const cls = emoteMap[code];
+        const span = `<span class="emote ${cls}"></span>`;
+        output = output.replaceAll(code, span);
+    }
+    return output;
+}
+function addMessage(text, type = "user") {
+    const div = document.createElement("div");
+    div.className = "msg " + (type === "user" ? "msg-user" : "msg-system");
+    div.innerHTML = renderEmotes(text);
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+}
