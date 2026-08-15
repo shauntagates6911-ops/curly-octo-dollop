@@ -30,3 +30,24 @@ function signup() {
     msg.textContent = "Account created! Redirecting...";
     setTimeout(() => location.href = "home.html", 800);
 }
+function signin() {
+    const u = user.value.trim();
+    const p = pass.value.trim();
+
+    const data = localStorage.getItem("acc_" + u);
+    if (!data) {
+        msg.textContent = "No such user.";
+        return;
+    }
+
+    const acc = JSON.parse(data);
+
+    if (acc.password !== p) {
+        msg.textContent = "Wrong password.";
+        return;
+    }
+
+    localStorage.setItem("currentUser", u);
+    msg.textContent = "Signed in!";
+    setTimeout(() => location.href = "home.html", 800);
+}
